@@ -1,0 +1,88 @@
+﻿<style>
+    .app-fab--absolute {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+
+    .horizontal-float-button-group {
+        display: flex;
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+
+    .heading {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .center-div {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+</style>
+
+@inject IUserManagement UserManagement
+@inject NavigationManager Url
+
+@if (isFetchingData)
+{
+    <div class="center-div">
+        <h3 class="mat-subtitle1">Loading ....</h3>
+        <MatProgressBar Indeterminate="true"></MatProgressBar>
+    </div>
+}
+else if (!isFetchingData && tenants == null && exception == null)
+{
+    <div class="center-div">
+        <h3 class="mat-subtitle1">No Customer Found</h3>
+    </div>
+}
+else if (exception != null)
+{
+    <div class="center-div">
+        <h3 class="mat-subtitle1">Sorry, could not load Customer's</h3>
+        <h4 class="mat-subtitle2">@exception.Message</h4>
+    </div>
+}
+else
+{
+    <MatAccordion Multi="true" Style="width:100%">
+        @foreach (var tenant in tenants)
+        {
+            <div class="mat-elevation-z2">
+                <MatListItem Href="@Url.ToAbsoluteUri($"Customer/CustomerDetails/{tenant.TenantId}?CustomerName={tenant.TenantName}").AbsoluteUri">@tenant.TenantName</MatListItem>
+            </div>
+        }
+    </MatAccordion>
+
+}
+
+@code{
+    private IList<TenantViewDao> tenants = new List<TenantViewDao>();
+    private Exception exception = null;
+    private bool isFetchingData = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            exception = null;
+            isFetchingData = true;
+            tenants = await UserManagement.GetTenantsAsync();
+        }
+        catch (Exception ex)
+        {
+            exception = ex;
+        }
+        finally
+        {
+            isFetchingData = false;
+        }
+
+    }
+}
+
+

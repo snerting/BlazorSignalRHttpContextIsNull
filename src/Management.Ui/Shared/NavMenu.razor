@@ -1,0 +1,12 @@
+﻿@inject NavigationManager Url
+    <MatList>
+        <MatListItem Href="@Url.ToAbsoluteUri("/").AbsoluteUri">
+            <span><MatIcon Icon="@MatIconNames.Home" />Home</span>
+        </MatListItem>
+        <MatListItem Href="@Url.ToAbsoluteUri("Customer/Customers").AbsoluteUri">
+            <span><MatIcon Icon="@MatIconNames.Business" />Customers</span>
+        </MatListItem>
+    </MatList>
+
+
+

@@ -1,0 +1,33 @@
+﻿<style>
+    .app-fab--absolute {
+        position: fixed;
+        bottom: 1rem;
+        right: 1rem;
+    }
+</style>
+
+
+@page "/Customer/Customers"
+@inject NavigationManager UriHelper;
+<h5 class="mat-h5">Customers</h5>
+
+<CustomerOverview />
+
+
+<MatFAB Class="app-fab--absolute" Icon="@MatIconNames.Add" Label="Add Customer" OnClick="@NavigateToAddTenant">
+
+</MatFAB>
+
+
+@code {
+    //OnClick="@RunOnClick"
+    public void RunOnClick(MouseEventArgs e)
+    {
+    }
+
+    private void NavigateToAddTenant()
+    {
+        UriHelper.NavigateTo($"customer/customernew");
+    }
+
+}

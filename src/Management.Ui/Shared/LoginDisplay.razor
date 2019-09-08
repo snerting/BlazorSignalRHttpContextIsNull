@@ -1,0 +1,42 @@
+﻿<style>
+
+    .horizontal-float{
+        display: flex;
+        margin-left: 20px;
+    }
+
+
+</style>
+
+<AuthorizeView>
+    <Authorized>
+        <div class="horizontal-float">
+            <div>
+                <h6 class="mat-h6">Hello, @name</h6>
+            </div>
+            <div class="horizontal-float">
+                <form method="post" action="Identity/Account/LogOut">
+                    <MatButton type="submit" Raised="true" name="action">Log out</MatButton>
+                </form>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <a href="AzureAD/Account/SignIn">Log in</a>
+    </NotAuthorized>
+</AuthorizeView>
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+@code{
+
+    private string name = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        name = "Name on auth user";//  authState.User.FindFirst("name").Value;
+    }
+
+
+}

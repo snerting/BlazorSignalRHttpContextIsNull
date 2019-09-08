@@ -1,0 +1,36 @@
+﻿@inherits LayoutComponentBase
+<MatAppBarContainer>
+    <MatAppBar Fixed="true">
+        <MatAppBarRow>
+            <MatAppBarSection>
+                <MatIconButton Icon="menu" OnClick="@((e) => ButtonClicked())"></MatIconButton>
+                <MatAppBarTitle>Management</MatAppBarTitle>
+            </MatAppBarSection>
+            <MatAppBarSection Align="@MatAppBarSectionAlign.End">
+                <LoginDisplay />
+            </MatAppBarSection>
+        </MatAppBarRow>
+    </MatAppBar>
+    <MatAppBarContent>
+        <MatDrawerContainer Style="width: 100vw; height: 100vh; ">
+            <MatDrawer  class="mat-elevation-z10" @bind-Opened="@Opened" Style="position:fixed">
+                    <NavMenu />
+            </MatDrawer>
+            <MatDrawerContent>
+                <div class="container px-4">
+                    @Body
+                </div>
+            </MatDrawerContent>
+        </MatDrawerContainer>
+    </MatAppBarContent>
+</MatAppBarContainer>
+
+
+@code
+{
+    bool Opened = false;
+    void ButtonClicked()
+    {
+        Opened = !Opened;
+    }
+}
